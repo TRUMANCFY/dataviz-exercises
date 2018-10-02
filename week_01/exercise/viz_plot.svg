@@ -7,7 +7,7 @@ but you can use transform="scale(1, -1)" to invert that.
 
 	https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
 -->
-<svg version="1.1" viewBox="-10 -10 220 120" width="220" height="120" xmlns="http://www.w3.org/2000/svg" >
+<svg version="1.1" viewBox="-10 -10 220 120" xmlns="http://www.w3.org/2000/svg" >
 	<!--
 		We can use stylesheets inside SVG too.
 		Likewise, SVG elements are affected by the main site's CSS.
@@ -30,24 +30,24 @@ but you can use transform="scale(1, -1)" to invert that.
 		https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
 	This path consists of line segments (L).
 	-->
-	<path
-		d="M 0 100 L 25 75 L 50 50 L 75 40 L 100 70 L 125 80 L 150 70 L 175 40 L 200 15 V 100 Z"
-		fill="rgb(0, 44, 122)"
-		stroke="rgb(0, 156, 250)"
+	<path 
+		d="M 0 100 L 25 75 L 50 50 L 75 40 L 100 70 L 125 80 L 150 70 L 175 40 L 200 15 V 100 Z" 
+		fill="rgb(0, 44, 122)" 
+		stroke="rgb(0, 156, 250)" 
 		stroke-width="0.75"
 	/>
 
-	<!-- Axis lines, the color and thickness is set by the stylesheet
+	<!-- Axis lines, the color and thickness is set by the stylesheet 
 		https://developer.mozilla.org/en-US/docs/Web/SVG/Element/line
 	-->
 	<line class="axis" x1="-5" y1="100" x2="205" y2="100"  />
 	<line class="axis" x1="0" y1="105" x2="0" y2="-5"/>
 
-	<!--
+	<!-- 
 	A different plot, consisting of red circles.
 	We set the color for all of them using a group
 	https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g
-	-->
+	--> 
 	<g id="red-dots-plot" fill="rgb(255, 0, 0)">
 		<!-- https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle -->
 		<circle cx="0" cy="75" r="1" />

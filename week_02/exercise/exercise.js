@@ -9,6 +9,9 @@ To implement:
 
 */
 
+function isEven(value) {
+    return value.filter(x => x % 2);
+}
 
 /*
 ### multiply
@@ -17,6 +20,10 @@ To implement:
 * find a product of the following numbers: 1,2,3,4,5
 * multiply(1,2,3,4,5) should return 120
 */
+
+function multiply(value) {
+    return value.reduce((a, b) => a*b);
+}
 
 
 /*
@@ -28,6 +35,12 @@ To implement:
 * filter [0, 1, 2, 3, 4, 5, 6] by divisibleBy(3)
 */
 
+function divisiblyBy(n) {
+    return function(value) {
+        return value.filter(x => !x%n);
+    }
+}
+
 
 /*
 ### increment
@@ -36,6 +49,12 @@ To implement:
 * initial value is 100, step size is 2
 */
 
+function increment(numIn) {
+    return function(divider) {
+        numIn = numIn + divider;
+        return numIn;
+    }
+}
 
 /*
 ### colorCycle
@@ -45,7 +64,19 @@ colorCycle(colors=COLOR_CYCLE_DEFAULT)
 
 const COLOR_CYCLE_DEFAULT = ['red', 'green', 'magenta', 'blue'];
 
-
+function colorCycle(colors=COLOR_CYCLE_DEFAULT) {
+    var i = 0;
+    return function() {
+        var res = colors[i];
+        if (i < colors.length - 1) {
+            i++;
+        }
+        else {
+            i = 0;
+        }
+        return res;
+    }
+}
 
 const cc_r_g = colorCycle(['red', 'green']);
 // This is a way to run 10 times, see the task about `range` below.
@@ -65,11 +96,14 @@ To implement:
 * range
 * filter range(100) by divisibility by 13
 */
-
+function range(n) {
+    let res = Array.from(Array(n));
+    let inc = increment(0);
+    return res.map(x => inc(1)-1)
+}
 console.log('range(10)', range(10));
 // Expeceted result:
 // [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-
 
 
 /*
@@ -80,6 +114,15 @@ To implement:
 
 */
 
+function randomInRange(min_val=0, max_val=100) {
+    return Math.random() * (max_val - min_val) + min_val;
+}
+
+function randomArray(N, min_val=0, max_val=100) {
+    let res = Array.from(Array(N));
+    return res.map(x => randomInRange(min_val, max_val));
+}
+
 console.log('randomArray', randomArray(5, 0, 10));
 
 /*
@@ -89,6 +132,18 @@ console.log('randomArray', randomArray(5, 0, 10));
 	For example `countOccurrences("hello")` yields `{'h': 1, 'e': 1, 'l': 2, 'o': 1 }`.
 */
 
+function countOccurrences(string) {
+    let res = {}
+    string.split('').forEach(function(a) {
+        if (!(a in res)) {
+            res[a] = 1;
+        }
+        else {
+            res[a]++;
+        }
+    })
+    return res;
+}
 
 console.log(countOccurrences('hello'));
 // Expected result:
@@ -107,8 +162,21 @@ console.log(countOccurrences('hello'));
 of characters in any text you input. You can pass a `colorCycle` with your colors as the second argument to color the bars.
 */
 
+function normalizeCounts(freq) {
+    let res = {}
+    let sum_freq = Object.keys(freq).map(x => freq[x]).reduce((a, b) => a + b);
+    Object.keys(freq).forEach(x => res[x] = freq[x]/sum_freq);
+    return res;
+}
 
 console.log(normalizeCounts(countOccurrences('hello')));
+
+function countOccurencesNormalized(string) {
+    return normalizeCounts(countOccurrences(string));
+}
+
+setCharacterCountingFunction(countOccurencesNormalized);
+
 // Expected result:
 // normalizeCounts({'h': 1, 'e': 1, 'l': 2, 'o': 1 }) ---> {'h': 0.2, 'e': 0.2, 'l': 0.4, 'o': 0.2 }
 
@@ -143,11 +211,18 @@ Use the `range` function to create the array of time points, then `map` them to 
 * Visualize the ball trajectories using `plotBall` (the 2nd optional argument is the line color):
 * Use `randomArray` to create 20 random angles between 0 deg and 90 deg, then plot the ball trajectories for each angle.
 */
-
 const DEG_TO_RAD = Math.PI / 180.;
 
-
 const ball_cc = colorCycle(['hsl(160, 100%, 64%)', 'hsl(200, 100%, 64%)', 'hsl(240, 100%, 64%)', 'hsl(120, 100%, 64%)', 'hsl(80, 100%, 64%)']);
+
+function simulateBall(v0, angle, num_steps=256, dt=0.05, g=-9.81) {
+    let times = range(num_steps).map(t => t*dt);
+    console.log(times);
+    return times.map(t => [v0 * Math.cos(angle * DEG_TO_RAD) * t, v0 * Math.sin(angle * DEG_TO_RAD) * t + 0.5 * g * Math.pow(t, 2)]);
+}
+
+
+
 plotBall(simulateBall(40, 60), ball_cc());
 plotBall(simulateBall(40, 30), ball_cc());
 plotBall(simulateBall(40, 45), ball_cc());
